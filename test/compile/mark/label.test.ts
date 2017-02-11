@@ -4,8 +4,7 @@ import {assert} from 'chai';
 import {parseLayerModel} from '../../util';
 import {label} from '../../../src/compile/mark/label';
 import {Mark} from '../../../src/mark';
-import {ANCHOR, OFFSET} from '../../../src/channel';
-import {ExtendedUnitSpec} from '../../../src/spec';
+// import {ANCHOR, OFFSET} from '../../../src/channel';
 
 describe('Mark: Label', function() {
   it('should return correct marktype', function() {
