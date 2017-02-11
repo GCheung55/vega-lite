@@ -2,50 +2,37 @@ import {isFieldDef} from '../../fielddef';
 import {Config} from '../../config';
 import {isInternalData} from '../../data';
 import {FieldDef} from '../../fielddef';
-import {SIZE, ANCHOR, OFFSET} from '../../channel';
-import {VgValueRef, VgEncodeEntry} from '../../vega.schema';
+import {ANCHOR, OFFSET} from '../../channel';
+import {VgValueRef, VgLabelTransform} from '../../vega.schema';
 
-import {applyConfig} from '../common';
 import {UnitModel} from '../unit';
 
-import {applyColorAndOpacity} from './common';
-import {MarkCompiler} from './base';
-import {textRef} from './text';
+import {LayoutCompiler} from './base';
+import {text, textRef} from './text';
 import * as ref from './valueref';
 
-export const label: MarkCompiler = {
+export const label: LayoutCompiler = {
   vgMark: 'text',
   role: undefined,
 
-  encodeEntry: (model: UnitModel) => {
+  encodeEntry: text.encodeEntry,
+
+  transform: (model: UnitModel) => {
     const data = model.data();
-
     if (isInternalData(data)) {
-      let e: VgEncodeEntry = {};
-
-      const config = model.config();
-
-      applyConfig(e, model.config().label,
-        ['angle', 'align', 'baseline', 'dx', 'dy', 'font', 'fontWeight',
-          'fontStyle', 'radius', 'theta', 'text']);
-
-      const textDef = model.encoding().text;
-
-      e.fontSize = ref.midPoint(SIZE, model.encoding().size, model.scaleName(SIZE), model.scale(SIZE),
-        {value: config.label.fontSize}
-      );
+      let t = {} as VgLabelTransform;
 
       // TODO: check if its internalData
       const referenceMark = model.parent().children().filter((sibling) => sibling.name() === data.ref)[0];
-      e.text = textRef(textDef, config);
 
       /* Labeling properties */
-      e.anchor = anchor(model.encoding().anchor, model.scaleName(ANCHOR), config);
-      e.offset = offset(model.encoding().offset, model.scaleName(OFFSET), config);
+      const config = model.config();
 
-      applyColorAndOpacity(e, model);
+      t.ref = referenceMark.name();
+      t.anchor = anchor(model.encoding().anchor, model.scaleName(ANCHOR), config);
+      t.offset = offset(model.encoding().offset, model.scaleName(OFFSET), config);
 
-      return e;
+      return t;
     } else {
       throw new Error('Label requires internal data');
     }
@@ -53,24 +40,12 @@ export const label: MarkCompiler = {
 };
 
 
-function anchor(fieldDef: FieldDef, scaleName: string, config: Config): VgValueRef {
-  if (isFieldDef(fieldDef)) {
-    return ref.fieldRef(fieldDef, scaleName, {datum: true});
-  }
-
-  // const orient = config.mark.orient;
-
-  // return sensible default given orient, model
+function anchor(fieldDef: FieldDef, scaleName: string, config: Config): string {
   return 'top';
+  // return 'auto'
 }
 
-function offset(fieldDef: FieldDef, scaleName: string, config: Config): VgValueRef {
-  if (isFieldDef(fieldDef)) {
-    return ref.fieldRef(fieldDef, scaleName, {datum: true});
-  }
-
-  // const orient = config.mark.orient;
-
-  // return sensible default given orient, model
+function offset(fieldDef: FieldDef, scaleName: string, config: Config): number | string {
   return 1;
+  // return 'auto'
 }
