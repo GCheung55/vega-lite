@@ -1,5 +1,5 @@
 import {UnitModel} from '../unit';
-import {VgEncodeEntry} from '../../vega.schema';
+import {VgEncodeEntry, VgLayoutTransform} from '../../vega.schema';
 
 /**
  * Abstract interface for compiling a Vega-Lite primitive mark type.
@@ -16,4 +16,8 @@ export interface MarkCompiler {
    */
   role: 'bar' | 'point' | 'circle' | 'square' | 'tick' | 'label' | undefined;
   encodeEntry: (model: UnitModel) => VgEncodeEntry;
+}
+
+export interface LayoutCompiler extends MarkCompiler {
+  transform: (model: UnitModel) => VgLayoutTransform;
 }
