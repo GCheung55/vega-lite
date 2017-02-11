@@ -8,7 +8,7 @@ import {Mark} from '../../../src/mark';
 
 describe('Mark: Label', function() {
   it('should return correct marktype', function() {
-    assert.equal(label.vgMark, 'label');
+    assert.equal(label.vgMark, 'text');
   });
 
   describe('simple bar', function () {

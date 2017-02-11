@@ -3,12 +3,12 @@ import {Config} from '../../config';
 import {isInternalData} from '../../data';
 import {FieldDef} from '../../fielddef';
 import {ANCHOR, OFFSET} from '../../channel';
-import {VgValueRef, VgLabelTransform} from '../../vega.schema';
+import {VgLabelTransform} from '../../vega.schema';
 
 import {UnitModel} from '../unit';
 
 import {LayoutCompiler} from './base';
-import {text, textRef} from './text';
+import {text} from './text';
 import * as ref from './valueref';
 
 export const label: LayoutCompiler = {
@@ -41,11 +41,27 @@ export const label: LayoutCompiler = {
 
 
 function anchor(fieldDef: FieldDef, scaleName: string, config: Config): string {
+  if (isFieldDef(fieldDef)) {
+     const def = ref.fieldRef(fieldDef, scaleName, {datum: true});
+  }
+
+  // const orient = config.mark.orient;
+
+  // return sensible default given orient, model
+
   return 'top';
-  // return 'auto'
+  // return 'auto';
 }
 
 function offset(fieldDef: FieldDef, scaleName: string, config: Config): number | string {
+  if (isFieldDef(fieldDef)) {
+    const def = ref.fieldRef(fieldDef, scaleName, {datum: true});
+  }
+
+  // const orient = config.mark.orient;
+
+  // return sensible default given orient, model
+
   return 1;
-  // return 'auto'
+  // return 'auto';
 }
