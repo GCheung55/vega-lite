@@ -142,6 +142,15 @@ export interface VgFormulaTransform {
   expr: string;
 }
 
+export interface VgLabelTransform {
+  type: 'label';
+  ref: string;
+  anchor: string;
+  offset: number | string;
+}
+
+export type VgLayoutTransform = VgLabelTransform; /* TODO add other layouts */
+
 export interface VgAxisEncode {
   ticks?: VgGuideEncode;
   labels?: VgGuideEncode;
@@ -160,7 +169,7 @@ export interface VgLegendEncode {
 
 export type VgGuideEncode = any; // TODO: replace this (See guideEncode in Vega Schema)
 
-export type VgTransform = VgBinTransform | VgExtentTransform | VgFormulaTransform | any;
+export type VgTransform = VgBinTransform | VgExtentTransform | VgFormulaTransform | VgLayoutTransform | any;
 
 export interface VgStackTransform {
   type: 'stack';
