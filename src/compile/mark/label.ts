@@ -12,9 +12,8 @@ import {text} from './text';
 import * as ref from './valueref';
 
 export const label: LayoutCompiler = {
-  vgMark: 'text',
-  role: undefined,
-
+  vgMark: text.vgMark,
+  role: text.role,
   encodeEntry: text.encodeEntry,
 
   transform: (model: UnitModel) => {
