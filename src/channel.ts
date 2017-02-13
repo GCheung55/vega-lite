@@ -2,7 +2,6 @@
  * Constants and utilities for encoding channels (Visual variables)
  * such as 'x', 'y', 'color'.
  */
-
 import {Encoding} from './encoding';
 import {Facet} from './facet';
 import {Mark} from './mark';
@@ -186,10 +185,10 @@ export function hasScale(channel: Channel) {
   return contains(SCALE_CHANNELS, channel);
 }
 
-export function supportScaleType(channel: Channel, scaleType: ScaleType): boolean {
-  // Position does not work with ordinal (lookup) scale and sequential (which is only for color)
-  const POSITION_SCALE_TYPE_INDEX = toSet(without(SCALE_TYPES, ['ordinal', 'sequential'] as ScaleType[]));
+// Position does not work with ordinal (lookup) scale and sequential (which is only for color)
+const POSITION_SCALE_TYPE_INDEX = toSet(without(SCALE_TYPES, ['ordinal', 'sequential'] as ScaleType[]));
 
+export function supportScaleType(channel: Channel, scaleType: ScaleType): boolean {
   switch (channel) {
     case ROW:
     case COLUMN:
