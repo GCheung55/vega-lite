@@ -180,3 +180,65 @@ export interface VgImputeTransform {
   method?: 'value' | 'median' | 'max' | 'min' | 'mean';
   value?: any;
 }
+
+export interface VgAxisBase {
+  /**
+   * Whether to include the axis domain line.
+   */
+  domain?: boolean;
+
+  /**
+   * A flag indicate if gridlines should be created in addition to ticks. If `grid` is unspecified, the default value is `true` for ROW and COL. For X and Y, the default value is `true` for quantitative and time fields and `false` otherwise.
+   */
+  grid?: boolean;
+
+  /**
+   * Enable or disable labels.
+   */
+  labels?: boolean;
+
+  /**
+   * The rotation angle of the axis labels.
+   * @minimum 0
+   * @maximum 360
+   */
+  labelAngle?: number;  // FIXME: not sure if this should be a theme
+
+  /**
+   * Whether the axis should include ticks.
+   */
+  ticks?: boolean;
+
+  /**
+   * The size, in pixels, of major, minor and end ticks.
+   * @minimum 0
+   */
+  tickSize?: number;
+
+  /**
+   * Max length for axis title if the title is automatically generated from the field's description. By default, this is automatically based on cell size and characterWidth property.
+   * @minimum 0
+   * @TJS-type integer
+   */
+  titleMaxLength?: number;
+
+  /**
+   * The padding, in pixels, between title and axis.
+   */
+  titlePadding?: number;
+
+  /**
+   * Minimum extent, which determines the offset between axis ticks and labels.
+   */
+  minExtent?: number;
+
+  /**
+   * Maximum extent, which determines the offset between axis ticks and labels.
+   */
+  maxExtent?: number;
+
+  /**
+   * Whether month and day names should be abbreviated.
+   */
+  shortTimeLabels?: boolean;
+}
