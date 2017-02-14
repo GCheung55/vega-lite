@@ -180,3 +180,13 @@ export interface VgImputeTransform {
   method?: 'value' | 'median' | 'max' | 'min' | 'mean';
   value?: any;
 }
+
+export interface VgLegendBase {
+  entryPadding?: number;
+
+  orient?: string;
+
+  offset?: number;
+
+  padding?: number;
+}
