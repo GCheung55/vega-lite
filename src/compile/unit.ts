@@ -7,7 +7,7 @@ import {SOURCE, SUMMARY} from '../data';
 import {Encoding} from '../encoding';
 import * as vlEncoding from '../encoding'; // TODO: remove
 import {ChannelDef, FieldDef, FieldRefOption, field, normalize, isFieldDef, isValueDef} from '../fielddef';
-import {Legend} from '../legend';
+import {Legend, VlLegendBase ,LEGEND_BASE_PROPERTIES} from '../legend';
 import {Mark, MarkDef, TEXT as TEXT_MARK, FILL_STROKE_CONFIG, isMarkDef} from '../mark';
 import {Scale, ScaleConfig, hasDiscreteDomain} from '../scale';
 import {UnitSpec} from '../spec';
@@ -82,7 +82,7 @@ export class UnitModel extends Model {
     }
 
     this.axes = this.initAxes(encoding, config);
-    this.legends = this.initLegend(encoding, config);
+    this.legends = this.initLegend(encoding);
 
     // width / height
     const {width = this.width, height = this.height} = this.initSize(mark, this.scales,
@@ -244,16 +244,20 @@ export class UnitModel extends Model {
     }, {});
   }
 
-  private initLegend(encoding: Encoding, config: Config): Dict<Legend> {
+  private initLegend(encoding: Encoding): Dict<Legend> {
     return NONSPATIAL_SCALE_CHANNELS.reduce(function(_legend, channel) {
       const channelDef = encoding[channel];
       if (isFieldDef(channelDef)) {
         const legendSpec = channelDef.legend;
         // We no longer support false in the schema, but we keep false here for backward compatability.
+        let vlLegendBase: VlLegendBase = {};
+          LEGEND_BASE_PROPERTIES.forEach(function(property) {
+            if (encoding !== undefined && encoding[property] !== undefined) {
+              vlLegendBase[property] = encoding[property];
+            }
+          });
         if (legendSpec !== null && legendSpec !== false) {
-          _legend[channel] = extend({}, config.legend,
-            legendSpec === true ? {} : legendSpec ||  {}
-          );
+          _legend[channel] = {vlLegendBase, ...legendSpec};
         }
       }
       return _legend;

@@ -1667,6 +1667,10 @@
                 "shape": {
                     "type": "string"
                 },
+                "shortTimeLabels": {
+                    "description": "Whether month names and weekday names should be abbreviated.",
+                    "type": "boolean"
+                },
                 "tickCount": {
                     "description": "The number of ticks for legend.",
                     "type": "number"
